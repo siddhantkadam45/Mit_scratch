@@ -1,0 +1,146 @@
+.container {
+  width: 100%;
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.moves {
+  margin:0.25em;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 15.5%;
+  padding: 15px;
+  background-color: #f5fcff;
+  max-height: 70vh;
+  min-height: 70vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.actions {
+  margin:0.25em;
+  background-color: #f5fcff;
+  width: 15.5%;
+  min-height: 70vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.play {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  width: 70%;
+  margin-right:10px ;
+  overflow: scroll;
+}
+
+.moves__heading {
+  font-size: 17px;
+  padding: 5px;
+  font-family: monospace;
+  /* font-weight: 600; */
+  background-color: rgba(77,151,255,.25);
+  /* text-align: center; */
+  color: #575e75;
+  border-radius: 10px;
+}
+
+.moves__single {
+  display: flex;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: rgba(245, 158, 11, var(--tw-bg-opacity));
+  color:white;
+  /* background-image:url("https://img.freepik.com/free-photo/crumpled-yellow-paper-background-close-up_60487-2390.jpg?size=626&ext=jpg"); */
+  transition: 0.2s;
+}
+
+.moves__single:hover {
+  box-shadow: 0 0 5px black;
+  transform: scale(1.03);
+}
+
+.moves__single--text {
+  flex: 1;
+  padding: 5px;
+  border: none;
+  font-size: 10px;
+}
+
+.moves__single--text:focus {
+  outline: none;
+}
+
+.gameProps {
+  flex-direction: row;
+  display: flex;
+  column-gap: 20px;
+  margin-top: 1em;
+  width:95%;
+  height: 90%;
+  align-items: center;
+  justify-content: center;
+  column-gap: 2%;
+  padding-bottom: 2%;
+}
+
+.msgPopup {
+  border: 1px solid lightgrey;
+  border-radius:10px;
+  background-color: lightgreen;
+  justify-content:center; 
+  color:black ;
+  font-family:monospace;
+  font-size:large;
+}
+.playRefresh{
+  display:flex; 
+  flex-direction:row;
+  margin-left:3%;
+  margin-right:3%; 
+}
+@media (max-width: 1100px) {
+  .moves {
+    width: 45%;
+  }
+  .gameProps {
+    row-gap: 20px;
+    height: 100%;
+    margin-top: 1em;
+  }
+}
+
+@media (max-width: 700px) { 
+  .container {
+    width: 95%;
+    flex-direction: column;
+  }
+  .moves {
+    width: 95%;
+    margin-bottom: 10px;
+  }
+  .gameProps {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.backgroundButton{
+    height:50px;
+    width:40px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+  }
