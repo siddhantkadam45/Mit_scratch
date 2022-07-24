@@ -1,15 +1,15 @@
-import React ,{ forwardRef, useImperativeHandle } from "react";
+import React ,{ forwardRef } from "react";
 import './styles.css';
 import { Box, Button, TextField, Typography} from "@mui/material";
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-export const Positions = forwardRef((props) => {
+export const Positions = (props) => {
     const {handleMove, refresh} = props;
     const [xInput, setXInput] = React.useState('');
     const [yInput, setYInput] = React.useState('');
 
     const handleClick = () => {
-      handleMove(xInput, yInput, false,0);
+      handleMove(xInput, yInput, false,0, true);
     };
 
     function clear(){
@@ -23,7 +23,7 @@ export const Positions = forwardRef((props) => {
             padding:'15px',
             flexGrow: 1, 
             fontFamily:'monospace',
-            height:'100px',
+            height:'120px',
             background:'white',
             borderRadius:'20px'
         }}
@@ -60,7 +60,6 @@ export const Positions = forwardRef((props) => {
                 }}
             />
             <Button variant="contained" size='small' color='primary' onClick={handleClick}>Move</Button>
-            
             <RefreshIcon sx={{color:'black',height:'30px',marginTop:'2px', ":hover":{cursor:'pointer', color:'blue'}}} onClick={clear}/>
         </Box>
         
@@ -69,6 +68,6 @@ export const Positions = forwardRef((props) => {
          
     </Box>
   );
-});
+};
 
 export default Positions;

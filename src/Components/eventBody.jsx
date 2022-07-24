@@ -4,6 +4,9 @@ import { Droppable } from 'react-beautiful-dnd';
 import { Box, Button } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import {Sprites} from './spriteProps';
 import Positions from './positons';
 import Resize from './resize';
@@ -18,109 +21,124 @@ export const EventBody = (props) => {
         moves,
         setMoves,
         actions,
-        setActions
+        setActions,
+        setActions2, 
+        actions2
     } = props;
 
     const ref = React.useRef();
-    const refHello = React.useRef();
+    const ref2 = React.useRef();
 
+    /// r, t values corresspond to right , top values  
     let r = '0%';
     let t = '0%';
     let scale = 1;
     let angle = 0;
+    let r2 = '0%';
+    let t2 = '0%';
+    let scale2 = 1;
+    let angle2 = 0;
 
     const [hello, setHello] = React.useState(false);
+    const [hello2, setHello2] = React.useState(false);
     const [theme, setTheme] = React.useState(false);
-    const [sprite, setSprite]= React.useState(require('../Assets/images/jerry1.png'));
+    const [displayAddIcon, setDisplayAddIcon] = React.useState(true);
+    const [sprite, setSprite]= React.useState(require('../Assets/images/cat.png'));
+    const [sprite2, setSprite2]= React.useState(null);
 
     console.log("rendering...");
 
-    function transform(temp, xAxis){
+    function transform(temp, xAxis, ref1){
         let value = temp.toString();
         if(xAxis){
-            r = value.concat('%')
+            if(ref1){
+                r = value.concat('%')
+            } else{
+                r2 = value.concat('%')
+            }
         } else{
-            t = value.concat('%')
+            if(ref1){
+                t = value.concat('%')
+            } else{
+                t2 = value.concat('%')
+            }
         }
-        ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`;
+        ref1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
+            :ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
     }
 
-    function callwarn(msg){
-        refresh();
-        toast.warn(msg,{
-            position: "top-center",
-            autoClose: 2000,
-            borderRadius:'20px',
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        })
-    }
-
-    function moveUp (i) {
+    function moveUp (i, ref) {
+        //move up top - 50
         setTimeout(()=>{
-            let temp = parseInt(t.slice(0,-1));
+            let temp = parseInt(ref ? t.slice(0,-1):t2.slice(0,-1));
             temp = temp - 50;
             if(temp<-140){
-                callwarn(WARN_MSG_POS);
+                refresh(WARN_MSG_POS);
                 return
             }
-            transform(temp, false);
+            transform(temp, false, ref);
         }, (i * 1500));
     }
-    function moveDown (i) {        
+    function moveDown (i, ref) {  
+        //move down top + 50    
         setTimeout(() => {
-            let temp = parseInt(t.slice(0,-1));
+            let temp = parseInt(ref ? t.slice(0,-1):t2.slice(0,-1));
             temp = temp + 50;
             if(temp>140){
-                callwarn(WARN_MSG_POS);
+                refresh(WARN_MSG_POS);
                 return
             }
-           transform(temp, false);
+           transform(temp, false, ref);
         }, (i * 1500));
     }
-    function moveRight (i) {
+    function moveRight (i, ref) {
+        //move right right+50
         setTimeout(()=>{
-            let temp = parseInt(r.slice(0,-1));
+            let temp = parseInt(ref ?r.slice(0,-1):r2.slice(0,-1));
             temp = temp + 50;
             if(temp>290){
-                callwarn(WARN_MSG_POS);
+                refresh(WARN_MSG_POS);
                 return
             }
-            transform(temp, true);
+            transform(temp, true, ref);
         }, (i * 1500));
     }
-    function moveLeft(i) {
+    function moveLeft(i, ref) {
+        //move right right-50 
         setTimeout(() => {
-            let temp = parseInt(r.slice(0,-1));
+            let temp = parseInt(ref ? r.slice(0,-1):r2.slice(0,-1));
             temp = temp - 50;
             if(temp<-290){
-                callwarn(WARN_MSG_POS);
+                refresh(WARN_MSG_POS);
                 return
             }
-            transform(temp, true);
+            transform(temp, true, ref);
         }, (i * 1500));
     }
-    function sayHello(i){
+    function sayHello(i, ref){
         setTimeout(()=>{
-            setHello(true);
-            refHello.current.style.transform = `translate(${r}, ${t})`;
+            ref ? setHello(true) : setHello2(true);
         }, (i* 1500));
-        closeHello(i);
+        //close hello after 1 sec
+        closeHello(i,ref);
     }
-    function closeHello(i){
+
+    function closeHello(i, ref){
+        //close hello after 1 sec
         setTimeout(()=>{
-            setHello(false);
+            ref? setHello(false):setHello2(false);
         }, (i*1500) +1000);
     }
-    function moveXY(xInput, yInput, random, i) {
+    function moveXY(xInput, yInput, random, i, ref1) {
+        // combined function to move to random postion and to x, y cordinates  
         setTimeout(()=>{
-            let tempR = parseInt(r.slice(0,-1));
-            let tempT = parseInt(t.slice(0,-1));
+            let tempR = parseInt(ref1 ? r.slice(0,-1) : r2.slice(0,-1));
+            let tempT = parseInt(ref1 ? t.slice(0,-1) : t2.slice(0,-1));
+            // asign the x, y values 
+            // or to random values 
             tempR = tempR !== parseInt(xInput) && parseInt(xInput) !== 0 
                 ? (random ? Math.floor((Math.random() * (-290-290)) +290) : parseInt(xInput)) 
                 : tempR;
-            console.log(tempR)
             tempT = tempT !== (-parseInt(yInput)) && parseInt(yInput) !== 0 
                 ? (random ? Math.floor((Math.random() * (-140-140)) + 140) : -parseInt(yInput)) 
                 : tempT;
@@ -130,25 +148,37 @@ export const EventBody = (props) => {
             if (parseInt(xInput)==0){
                 tempR = 0;
             }
+            //return to intial if it is out of bounds 
             if(tempR<-290 || tempR>290 || tempT<-140 || tempT>140){
-                callwarn(WARN_MSG_POS);
+                refresh(WARN_MSG_POS);
                 return
             }
             let valueR = tempR.toString();
             let valueT = tempT.toString();
 
-            r = valueR.concat('%');
-            t = valueT.concat('%');
-            ref.current.style.transform = `scale(${scale}) translate(${r}, ${t}) rotate(${angle}deg)`;
+            if(ref1){
+                r = valueR.concat('%');
+                t = valueT.concat('%');
+            } else {
+                r2 = valueR.concat('%');
+                t2 = valueT.concat('%');
+            }
+            // apply tarnsform for respective sprite
+            ref1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
+                : ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
         }, (i * 1500));
     }
-    const rotate = (rAngle,i) =>{
+    const rotate = (rAngle,i, ref1) =>{
         setTimeout(() => {
-            angle += rAngle;
-            ref.current.style.transform = `scale(${scale}) translate(${r}, ${t}) rotate(${angle}deg)`;
+            //rotate the sprite 
+            ref1 ? angle += rAngle : angle2+=rAngle;
+            // apply tarnsform for respective sprite
+            ref1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
+                : ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
         }, (i * 1500));
     }
-    function handleScale(size, increase, idx){
+    function handleScale(size, increase, idx, ref1){
+        //combined function to scale from resize component and resize action item 
         if(size === 'medium'){
             scale =2;
             ref.current.style.transform = `scale(2) translate(${r}, ${t}) rotate(${angle}deg)`;
@@ -163,87 +193,95 @@ export const EventBody = (props) => {
             return 
         } else if(increase) {
             setTimeout(() => {
-                scale += 0.2;
-                if (scale<3.5){
-                    ref.current.style.transform = `scale(${scale}) translate(${r}, ${t}) rotate(${angle}deg)`;
-                }else{
-                    callwarn(WARN_MSG_SIZE);
+                ref1 ? scale += 0.2 : scale2 += 0.2;
+                if(ref1){
+                    if (scale<3){
+                        ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`;
+                    }else{
+                        refresh(WARN_MSG_SIZE);}
+                } else{
+                    if (scale2<3){
+                        ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
+                    }else{
+                        refresh(WARN_MSG_SIZE);}
                 }
             }, idx*1500);
             return
         } else {
             setTimeout(() => {
-                scale -= 0.2;
-                if(scale>0.25){
-                    ref.current.style.transform = `scale(${scale}) translate(${r}, ${t}) rotate(${angle}deg)`;
+                ref1 ? scale -= 0.2 : scale2 -= 0.2;
+                if(ref1){
+                    if (scale>0.5){
+                        ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`;
+                    }else{
+                        refresh(WARN_MSG_SIZE);}
                 } else{
-                    callwarn(WARN_MSG_SIZE);
+                    if (scale2>0.5){
+                        ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
+                    }else{
+                        refresh(WARN_MSG_SIZE);}
                 }
             }, idx*1500);
         return
         }
     }
-    
-    function handleTheme(){
-        setTheme(!theme);
-    }
 
-    const startActions = (action, idx) =>{
+    const startActions = (action, idx, ref) =>{
         switch(action) {
-            case 'move x by 10': {
-                moveRight(idx);
+            case 'move x by 50': {
+                moveRight(idx, ref);
                 break;
             }
-            case 'move y by 10': {
-                moveUp(idx);
+            case 'move y by 50': {
+                moveUp(idx, ref);
                 break;
             }
-            case 'move x by -10': {
-                moveLeft(idx);
+            case 'move x by -50': {
+                moveLeft(idx, ref);
                 break;
             }
-            case 'move y by -10': {
-                moveDown(idx);
+            case 'move y by -50': {
+                moveDown(idx, ref);
                 break;
             }
             case 'rotate 45': {
-                rotate(45,idx);
+                rotate(45,idx, ref);
                 break;
             }
             case 'rotate 90': {
-                rotate(90, idx);
+                rotate(90, idx, ref);
                 break;
             }
             case 'rotate 135': {
-                rotate(135, idx);
+                rotate(135, idx, ref);
                 break;
             }
             case 'rotate 180': {
-                rotate(180, idx);
+                rotate(180, idx, ref);
                 break;
             }
             case 'rotate 360': {
-                rotate(360, idx);
+                rotate(360, idx, ref);
                 break;
             }
             case 'say hello': {
-                sayHello(idx);
+                sayHello(idx, ref);
                 break;
             }
             case 'random position': {
-                moveXY(1,1,true, idx);
+                moveXY(1,1,true, idx, ref);
                 break;
             }
             case 'move (0, 0)': {
-                moveXY(0,0,false, idx);
+                moveXY(0,0,false, idx, ref);
                 break;
             }
             case 'size decrease': {
-                handleScale('', false, idx);
+                handleScale('', false, idx, ref);
                 break;
             }
             case 'size increase': {
-                handleScale('', true, idx);
+                handleScale('', true, idx, ref);
                 break;
             }
             case 'repeat': {
@@ -263,22 +301,43 @@ export const EventBody = (props) => {
         }
     }
 
-    const refresh = () => {
-        clearTimeouts();
+    const refresh = (msg) => {
+        //refresh to intial positions 
         r = '0%';
         t = '0%';
+        r2 = '0%';
+        t2= '0%';
+        scale2=1;
+        angle2=0;
         scale=1;
         angle=0;
+        clearTimeouts();
         setHello(false);
+
+        //warn message about the boundaries 
+        if(msg){
+            toast.warn(msg,{
+                position: "top-center",
+                autoClose: 2000,
+                borderRadius:'20px',
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        }
         ref.current.style.transform = `scale(${scale}) translate(${r}, ${t}) rotate(${angle})`;
+        ref2.current.style.transform = `scale(${scale2}) translate(${r2}, ${t2}) rotate(${angle2})`;
     };
     
     const runApp = () =>{
-        actions && actions.map((item, i) => {startActions(item.todo, i); return});
+        //function to start the actions
+        //send true as a parameter if the actions are for the first sprite else false  
+        actions && actions.map((item, i) => {startActions(item.todo, i, true); return});
+        !displayAddIcon && actions2 && actions2.map((item, i) => {startActions(item.todo, i, false); return});
     };
 
   return (
-    <div className='mainContainer'>
+  <div className='mainContainer'>
     <ToastContainer />
     <div className="container">
         <Droppable droppableId="MovesList">
@@ -305,6 +364,7 @@ export const EventBody = (props) => {
                 </div>
             )}
         </Droppable>
+
         <Droppable droppableId="MovesActions">
             {(provided) => (
             <div 
@@ -313,7 +373,7 @@ export const EventBody = (props) => {
                 {...provided.droppableProps}
             >
                 <span className='moves__heading'>
-                    Actions
+                    Action
                 </span>
                  {actions?.map((move, index) => (
                     <SingleAction
@@ -329,20 +389,72 @@ export const EventBody = (props) => {
             </div>
             )}
         </Droppable>
+
+        {displayAddIcon && 
+        <div style={{display:'flex', flexDirection:'column' ,justifyContent:'center', alignItems:'center'}}>
+        <div className="icon">
+            <AddBoxIcon sx={{color:'gray', cursor:'pointer'}} onClick={()=>{
+                setDisplayAddIcon(!displayAddIcon);
+                setSprite2(require('../Assets/images/jerry1.png'));
+            }}/>
+            <span class="tooltiptext">add sprite</span>
+        </div>
+        <div><DeleteIcon onClick={()=>{setActions([])}} sx={{cursor:'pointer', fontSize:'30px',color:'Grey'}}/></div>
+        </div>
+        }
+        {!displayAddIcon &&
+            <Droppable droppableId="MovesActions2">
+                {(provided) => (
+                <div 
+                    className="moves actions"
+                    ref={provided.innerRef} 
+                    {...provided.droppableProps}
+                >
+                    <span className='moves__heading'>
+                        Action 2
+                    </span>
+                    {actions2?.map((move, index) => (
+                        <SingleAction
+                            index={index}
+                            moves={actions2}
+                            move={move}
+                            key={move.id}
+                            refresh={refresh}
+                            setMoves={setActions2}
+                        />
+                    ))}
+                    {provided.placeholder}
+                    
+                </div>
+                )}
+            </Droppable>
+        }
+        {!displayAddIcon &&
+            <div className="icon">
+                <DisabledByDefaultIcon sx={{color:'gray', cursor:'pointer'}} onClick={()=>{
+                    setDisplayAddIcon(!displayAddIcon);
+                    setSprite2(null);
+                    refresh();
+                    setActions2([]);
+                }}/>
+                <div><DeleteIcon onClick={()=>{setActions([]);setActions2([])}} sx={{cursor:'pointer', fontSize:'30px',color:'Grey'}}/></div>
+            </div>
+        }
+
         <div className="moves play" 
             style={{
              background: theme ?'url("https://www.hp.com/us-en/shop/app/assets/images/uploads/prod/misty-forest-background1595620320482968.jpg?impolicy=prdimg&imdensity=1&imwidth=1000")':null, 
              backgroundSize:theme?'100% 100%':null
-            }}>
-            <Draggable1 
-                bounds= {{left: -540, top: -250, right:540, bottom:250}}
-            >
-                <div ref={ref} style={{
-                    position:'relative',
-                    transition:'1s all ease'
-                }}>
+            }}
+        >
+            <Draggable1 bounds= {{left: -540, top: -250, right:540, bottom:250}}>
+                <div style={{display:'flex', flexDirection:"row"}}> 
+                    <div ref={ref} style={{
+                        position:'relative',
+                        transition:'1s all ease'}}
+                    >
                     {hello ?
-                        <div icon={false} severity="success" style={{transition:"0s all ease"}} className='msgPopup'>
+                        <div style={{transition:"0s all ease"}} className='msgPopup'>
                             hello!
                         </div>
                         : null
@@ -357,42 +469,66 @@ export const EventBody = (props) => {
                             transition: '1s all ease'
                         }}
                     />
+                    </div>
+                    {!displayAddIcon && <div ref={ref2} style={{
+                        position:'relative',
+                        transition:'1s all ease'}}
+                    >
+                    {hello2 ?
+                        <div style={{transition:"0s all ease"}} className='msgPopup'>
+                            hello!
+                        </div>
+                        : null
+                    }
+                    <img src={sprite2} 
+                        draggable='false'
+                        style={{
+                            cursor:"pointer",
+                            position:'relative',
+                            height:200, 
+                            width:200,
+                            transition: '1s all ease'
+                        }}
+                    />
+                    </div>}
                 </div>
             </Draggable1>
         </div>
     </div>
-        <div className="gameProps">
-            <Sprites setSprite={setSprite} sprite={sprite} />
-            <div className='playRefresh' >
-                <Button variant="contained" sx={{borderRadius:"20px", marginRight:'5px', height:"40px", width:'80px'}}  
-                    color='success' onClick={runApp}
-                >
-                    <PlayArrowIcon />
-                </Button>
-                <Button variant="contained" sx={{borderRadius:"20px", height:"40px", width:'80px'}} 
-                    color='error' onClick={refresh}
-                >
-                    <RefreshIcon sx={{color:'white'}}/>
-                </Button>
-            </div>
-            <Positions handleMove={moveXY} refresh={refresh} />
-            <Resize setSize={handleScale} size={'small'}/>
-            <Box className="backgroundButton" 
-                sx={{ 
-                    ":hover":{ 
-                        backgroundColor:'#4d97ff',
-                        border:'2px solid #0d6efd',
-                        cursor:'pointer'
-                    },
-                    background:theme?'#4d97ff':'white',
-                    border:theme?'2px solid #0d6efd':'none',
-                }}
-                onClick={handleTheme}
-                >
-                <WallpaperIcon/>
-            </Box>
+
+    <div className="gameProps">
+        <Sprites setSprite={setSprite} setSprite2={setSprite2} displayAddIcon={displayAddIcon} sprite2={sprite2} sprite={sprite} />
+        
+        <div className='playRefresh' >
+            <Button variant="contained" sx={{borderRadius:"20px", marginRight:'5px', height:"40px", width:'80px'}}  
+                color='success' onClick={runApp}
+            >
+                <PlayArrowIcon />
+            </Button>
+            <Button variant="contained" sx={{borderRadius:"20px", height:"40px", width:'80px'}} 
+                color='error' onClick={refresh}
+            >
+                <RefreshIcon sx={{color:'white'}}/>
+            </Button>
         </div>
+        <Positions handleMove={moveXY} refresh={refresh} />
+        <Resize setSize={handleScale} size={'small'}/>
+        <Box className="backgroundButton" 
+            sx={{ 
+                ":hover":{ 
+                    backgroundColor:'#4d97ff',
+                    border:'2px solid #0d6efd',
+                    cursor:'pointer'
+                },
+                background:theme?'#4d97ff':'white',
+                border:theme?'2px solid #0d6efd':'none',
+            }}
+            onClick={()=>setTheme(!theme)}
+            >
+            <WallpaperIcon/>
+        </Box>
     </div>
+  </div>
 
   );
 }

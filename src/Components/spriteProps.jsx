@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import './styles.css';
-import { Box, requirePropFactory } from "@mui/material";
+import { Box } from "@mui/material";
 
 export const Sprites = (props) => {
-  const {sprite, setSprite, ref} = props;
+  const {sprite, sprite2, setSprite, setSprite2, displayAddIcon} = props;
   const spriteProps= [
       {
         id:0,
@@ -26,7 +26,7 @@ export const Sprites = (props) => {
   ];
   function handleClick(src) {
     console.log('clicked')
-    setSprite(src);
+    displayAddIcon ? setSprite(src): setSprite2(src);
   };
   return (
     <Box 
@@ -35,6 +35,7 @@ export const Sprites = (props) => {
             fontFamily:'monospace',
             display:'flex',
             maxWidth:'540px',
+            height:'140px',
             flexDirection:'row',
             columnGap:'10px'
         }}
@@ -42,9 +43,10 @@ export const Sprites = (props) => {
         {spriteProps.map((item)=>(
             <Box
                 sx={{
-                    background:sprite !== item.src ?'white':'#4d97ff',
+                    background:sprite !== item.src && sprite2 !== item.src ? 'white':'#4d97ff',
                     borderRadius:'20px',
-                    border: sprite === item.src ? '2px solid #0d6efd':'2px solid transparent',
+                    maxHeight:'130px',
+                    border: sprite === item.src || sprite2 === item.src ? '2px solid #0d6efd':'2px solid transparent',
                     ":hover":{
                        backgroundColor:'#4d97ff',
                        border:'2px solid #0d6efd',

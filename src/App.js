@@ -1,14 +1,15 @@
 import React from "react";
 import { EventBody } from './Components/eventBody'
 import { useState } from 'react';
-import ToolBar from './Components/toolBar';
+import { NavBar } from './Components/navBar';
 import { DragDropContext} from "react-beautiful-dnd";
 import { MOVES } from "./constanst";
 
 export default function App() {
   const [moves, setMoves] = useState(MOVES);
   const [actions, setActions]= useState([]);
- 
+  const [actions2, setActions2]= useState([]);
+  
   const onHandleDragEnd = (result) =>{
     const {source, destination} = result;
     console.log(source, destination)
@@ -24,31 +25,35 @@ export default function App() {
     }
     let add , 
       active = moves,
-      complete = actions;
-    
-    if (source.droppableId === "MovesList") {
-      add = active[source.index];
-    }
+      complete = actions,
+      complete2 = actions2; 
+
+    // take a move to drag and drop 
+    add = active[source.index];
 
     // Destination Logic
-    if (destination.droppableId === "MovesList") {
-      active.splice(source.index, 1);
-      active.splice(destination.index, 0, add);
-    } else {
+    if (destination.droppableId === "MovesActions") {
+      // add the move to action 1
       complete.push(add);
+    } else {
+      //add the move to action 2
+      complete2.push(add);
     }
+    setActions2(complete2);
     setActions(complete);
     setMoves(active);
   }
   
   return (
     <div className="bg-blue-100 font-sans text-center">
-      <ToolBar/>
+      <NavBar/>
         <DragDropContext onDragEnd={onHandleDragEnd}>
           <EventBody 
             moves={moves} 
             setMoves={setMoves} 
             actions={actions}
+            actions2={actions2}
+            setActions2={setActions2}
             setActions={setActions}  
           />
         </DragDropContext>

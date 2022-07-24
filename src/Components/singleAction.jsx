@@ -19,25 +19,25 @@ export const SingleAction = (props) => {
     {disableDelete ?
       <Draggable key={move.id} draggableId={move.id.toString()} index={index}>
           {(provided) => (
-                <form 
+                <div 
                     className="moves__single" 
                     {...provided.draggableProps}    
                     {...provided.dragHandleProps} 
                     ref={provided.innerRef}
                 >
                   <span className="moves__single--text">{move.todo}</span>
-                </form>
+                </div>
               )}
       </Draggable>
       : 
-        <form className="moves__single">
+        <div className="moves__single">
             <span className="moves__single--text">{move.todo}</span>
             <div>
               <span className="icon" onClick={() => handleDelete(index)}>
                   <DeleteIcon sx={{":hover":{cursor:'pointer'}}} />
               </span>
             </div>  
-        </form>
+        </div>
       }
     </div>
     
