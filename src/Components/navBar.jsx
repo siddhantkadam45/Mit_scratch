@@ -19,7 +19,7 @@ export const NavBar = () => {
         <Toolbar disableGutters>
           <Box
              sx={{
-                mr: 5,
+                mr:5,
                 mt:1,
                 ml:5,
                 display: { xs: 'none', md: 'flex' },
@@ -29,8 +29,8 @@ export const NavBar = () => {
           </Box>  
           <Box
              sx={{
-                mr: '35%',
-                ml: '20%',
+                mr: '30%',
+                ml: '35%',
                 display: { xs: 'flex', md: 'none' },
               }}
           >

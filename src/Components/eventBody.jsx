@@ -48,92 +48,92 @@ export const EventBody = (props) => {
 
     console.log("rendering...");
 
-    function transform(temp, xAxis, ref1){
+    function transform(temp, xAxis, action1){
         let value = temp.toString();
         if(xAxis){
-            if(ref1){
+            if(action1){
                 r = value.concat('%')
             } else{
                 r2 = value.concat('%')
             }
         } else{
-            if(ref1){
+            if(action1){
                 t = value.concat('%')
             } else{
                 t2 = value.concat('%')
             }
         }
-        ref1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
+        action1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
             :ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
     }
 
-    function moveUp (i, ref) {
+    function moveUp (i, action1) {
         //move up top - 50
         setTimeout(()=>{
-            let temp = parseInt(ref ? t.slice(0,-1):t2.slice(0,-1));
+            let temp = parseInt(action1 ? t.slice(0,-1):t2.slice(0,-1));
             temp = temp - 50;
             if(temp<-140){
                 refresh(WARN_MSG_POS);
                 return
             }
-            transform(temp, false, ref);
+            transform(temp, false, action1);
         }, (i * 1500));
     }
-    function moveDown (i, ref) {  
+    function moveDown (i, action1) {  
         //move down top + 50    
         setTimeout(() => {
-            let temp = parseInt(ref ? t.slice(0,-1):t2.slice(0,-1));
+            let temp = parseInt(action1 ? t.slice(0,-1):t2.slice(0,-1));
             temp = temp + 50;
             if(temp>140){
                 refresh(WARN_MSG_POS);
                 return
             }
-           transform(temp, false, ref);
+           transform(temp, false, action1);
         }, (i * 1500));
     }
-    function moveRight (i, ref) {
+    function moveRight (i, action1) {
         //move right right+50
         setTimeout(()=>{
-            let temp = parseInt(ref ?r.slice(0,-1):r2.slice(0,-1));
+            let temp = parseInt(action1 ?r.slice(0,-1):r2.slice(0,-1));
             temp = temp + 50;
             if(temp>290){
                 refresh(WARN_MSG_POS);
                 return
             }
-            transform(temp, true, ref);
+            transform(temp, true, action1);
         }, (i * 1500));
     }
-    function moveLeft(i, ref) {
+    function moveLeft(i, action1) {
         //move right right-50 
         setTimeout(() => {
-            let temp = parseInt(ref ? r.slice(0,-1):r2.slice(0,-1));
+            let temp = parseInt(action1 ? r.slice(0,-1):r2.slice(0,-1));
             temp = temp - 50;
             if(temp<-290){
                 refresh(WARN_MSG_POS);
                 return
             }
-            transform(temp, true, ref);
+            transform(temp, true, action1);
         }, (i * 1500));
     }
-    function sayHello(i, ref){
+    function sayHello(i, action1){
         setTimeout(()=>{
-            ref ? setHello(true) : setHello2(true);
+            action1 ? setHello(true) : setHello2(true);
         }, (i* 1500));
         //close hello after 1 sec
-        closeHello(i,ref);
+        closeHello(i,action1);
     }
 
-    function closeHello(i, ref){
+    function closeHello(i, action1){
         //close hello after 1 sec
         setTimeout(()=>{
-            ref? setHello(false):setHello2(false);
+            action1? setHello(false):setHello2(false);
         }, (i*1500) +1000);
     }
-    function moveXY(xInput, yInput, random, i, ref1) {
+    function moveXY(xInput, yInput, random, i, action1) {
         // combined function to move to random postion and to x, y cordinates  
         setTimeout(()=>{
-            let tempR = parseInt(ref1 ? r.slice(0,-1) : r2.slice(0,-1));
-            let tempT = parseInt(ref1 ? t.slice(0,-1) : t2.slice(0,-1));
+            let tempR = parseInt(action1 ? r.slice(0,-1) : r2.slice(0,-1));
+            let tempT = parseInt(action1 ? t.slice(0,-1) : t2.slice(0,-1));
             // asign the x, y values 
             // or to random values 
             tempR = tempR !== parseInt(xInput) && parseInt(xInput) !== 0 
@@ -156,7 +156,7 @@ export const EventBody = (props) => {
             let valueR = tempR.toString();
             let valueT = tempT.toString();
 
-            if(ref1){
+            if(action1){
                 r = valueR.concat('%');
                 t = valueT.concat('%');
             } else {
@@ -164,20 +164,20 @@ export const EventBody = (props) => {
                 t2 = valueT.concat('%');
             }
             // apply tarnsform for respective sprite
-            ref1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
+            action1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
                 : ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
         }, (i * 1500));
     }
-    const rotate = (rAngle,i, ref1) =>{
+    const rotate = (rAngle,i, action1) =>{
         setTimeout(() => {
             //rotate the sprite 
-            ref1 ? angle += rAngle : angle2+=rAngle;
+            action1 ? angle += rAngle : angle2+=rAngle;
             // apply tarnsform for respective sprite
-            ref1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
+            action1 ? ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`
                 : ref2.current.style.transform = `scale(${scale2})translate(${r2}, ${t2}) rotate(${angle2}deg)`;
         }, (i * 1500));
     }
-    function handleScale(size, increase, idx, ref1){
+    function handleScale(size, increase, idx, action1){
         //combined function to scale from resize component and resize action item 
         if(size === 'medium'){
             scale =2;
@@ -193,8 +193,8 @@ export const EventBody = (props) => {
             return 
         } else if(increase) {
             setTimeout(() => {
-                ref1 ? scale += 0.2 : scale2 += 0.2;
-                if(ref1){
+                action1 ? scale += 0.2 : scale2 += 0.2;
+                if(action1){
                     if (scale<3){
                         ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`;
                     }else{
@@ -209,8 +209,8 @@ export const EventBody = (props) => {
             return
         } else {
             setTimeout(() => {
-                ref1 ? scale -= 0.2 : scale2 -= 0.2;
-                if(ref1){
+                action1 ? scale -= 0.2 : scale2 -= 0.2;
+                if(action1){
                     if (scale>0.5){
                         ref.current.style.transform = `scale(${scale})translate(${r}, ${t}) rotate(${angle}deg)`;
                     }else{
@@ -226,67 +226,71 @@ export const EventBody = (props) => {
         }
     }
 
-    const startActions = (action, idx, ref) =>{
+    const startActions = (action, idx, action1) =>{
         switch(action) {
             case 'move x by 50': {
-                moveRight(idx, ref);
+                moveRight(idx, action1);
                 break;
             }
             case 'move y by 50': {
-                moveUp(idx, ref);
+                moveUp(idx, action1);
                 break;
             }
             case 'move x by -50': {
-                moveLeft(idx, ref);
+                moveLeft(idx, action1);
                 break;
             }
             case 'move y by -50': {
-                moveDown(idx, ref);
+                moveDown(idx, action1);
                 break;
             }
             case 'rotate 45': {
-                rotate(45,idx, ref);
+                rotate(45,idx, action1);
                 break;
             }
             case 'rotate 90': {
-                rotate(90, idx, ref);
+                rotate(90, idx, action1);
                 break;
             }
             case 'rotate 135': {
-                rotate(135, idx, ref);
+                rotate(135, idx, action1);
                 break;
             }
             case 'rotate 180': {
-                rotate(180, idx, ref);
+                rotate(180, idx, action1);
                 break;
             }
             case 'rotate 360': {
-                rotate(360, idx, ref);
+                rotate(360, idx, action1);
                 break;
             }
             case 'say hello': {
-                sayHello(idx, ref);
+                sayHello(idx, action1);
                 break;
             }
             case 'random position': {
-                moveXY(1,1,true, idx, ref);
+                moveXY(1,1,true, idx, action1);
                 break;
             }
             case 'move (0, 0)': {
-                moveXY(0,0,false, idx, ref);
+                moveXY(0,0,false, idx, action1);
                 break;
             }
             case 'size decrease': {
-                handleScale('', false, idx, ref);
+                handleScale('', false, idx, action1);
                 break;
             }
             case 'size increase': {
-                handleScale('', true, idx, ref);
+                handleScale('', true, idx, action1);
                 break;
             }
             case 'repeat': {
                 setTimeout(() => {
-                    runApp();
+                    if(action1){
+                        runAction1();
+                    } else{
+                        runAction2();
+                    }
                 }, idx*1500);
                 break;
             }
@@ -328,14 +332,16 @@ export const EventBody = (props) => {
         ref.current.style.transform = `scale(${scale}) translate(${r}, ${t}) rotate(${angle})`;
         ref2.current.style.transform = `scale(${scale2}) translate(${r2}, ${t2}) rotate(${angle2})`;
     };
-    
-    const runApp = () =>{
-        //function to start the actions
-        //send true as a parameter if the actions are for the first sprite else false  
-        actions && actions.map((item, i) => {startActions(item.todo, i, true); return});
-        !displayAddIcon && actions2 && actions2.map((item, i) => {startActions(item.todo, i, false); return});
-    };
 
+    //function to start the actions
+    //send true as a parameter if the actions are for the first sprite else false 
+    function runAction1(){
+        actions && actions.map((item, i) => {startActions(item.todo, i, true); return});
+    }
+    function runAction2(){
+        !displayAddIcon && actions2 && actions2.map((item, i) => {startActions(item.todo, i, false); return});
+    }
+    
   return (
   <div className='mainContainer'>
     <ToastContainer />
@@ -396,6 +402,7 @@ export const EventBody = (props) => {
             <AddBoxIcon sx={{color:'gray', cursor:'pointer'}} onClick={()=>{
                 setDisplayAddIcon(!displayAddIcon);
                 setSprite2(require('../Assets/images/jerry1.png'));
+                refresh();
             }}/>
             <span class="tooltiptext">add sprite</span>
         </div>
@@ -500,7 +507,10 @@ export const EventBody = (props) => {
         
         <div className='playRefresh' >
             <Button variant="contained" sx={{borderRadius:"20px", marginRight:'5px', height:"40px", width:'80px'}}  
-                color='success' onClick={runApp}
+                color='success' onClick={()=>{
+                    runAction1();
+                    runAction2();
+                }}
             >
                 <PlayArrowIcon />
             </Button>
