@@ -435,7 +435,6 @@ export const EventBody = (props) => {
                     setDisplayAddIcon(!displayAddIcon);
                     setSprite2(null);
                     refresh();
-                    setActions2([]);
                 }}/>
                 <div><DeleteIcon onClick={()=>{setActions([]);setActions2([])}} sx={{cursor:'pointer', fontSize:'30px',color:'Grey'}}/></div>
             </div>
