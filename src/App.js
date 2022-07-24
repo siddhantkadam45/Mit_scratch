@@ -3,7 +3,7 @@ import { EventBody } from './Components/eventBody'
 import { useState } from 'react';
 import { NavBar } from './Components/navBar';
 import { DragDropContext} from "react-beautiful-dnd";
-import { MOVES } from "./constanst";
+import { MOVES } from "./constants";
 
 export default function App() {
   const [moves, setMoves] = useState(MOVES);

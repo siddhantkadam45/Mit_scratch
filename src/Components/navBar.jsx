@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Logo from '../Assets/images/Logo.png';
-import { PAGES } from '../constanst';
+import { PAGES } from '../constants';
 
 export const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

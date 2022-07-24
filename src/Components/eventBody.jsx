@@ -14,7 +14,7 @@ import Draggable1 from 'react-draggable';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WallpaperIcon from '@mui/icons-material/Wallpaper';
-import { WARN_MSG_POS, WARN_MSG_SIZE } from '../constanst';
+import { WARN_MSG_POS, WARN_MSG_SIZE } from '../constants';
 
 export const EventBody = (props) => {
     const {
