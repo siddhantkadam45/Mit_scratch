@@ -17,7 +17,8 @@ export const Positions = (props) => {
         setYInput('');
         refresh();
     }
-  return (
+    return <div></div>
+     return (
     <Box className='spriteContainer'
         sx={{
             padding:'15px',
@@ -30,7 +31,7 @@ export const Positions = (props) => {
     >
         <Typography variant='h11' sx={{color:'#ed6c02' ,fontFamily:'monospace'}}>Note:</Typography>
         <span style={{color:'grey', fontFamily:'monospace', fontSize:"10px"}}>
-            Enter both x and y values
+        
         </span>
         <Box style={{
             padding:'10px',

@@ -13,7 +13,7 @@ export const SingleAction = (props) => {
     setMoves(arr.concat(active));
     refresh();
   };
-
+ 
   return (
     <div>  
     {disableDelete ?

@@ -12,7 +12,7 @@ export const NavBar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
+  return <div></div>
   return (
     <AppBar position="static" sx={{backgroundColor : '#4d97ff'}}>
       <Container maxWidth="xl">

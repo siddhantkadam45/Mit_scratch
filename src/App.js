@@ -4,19 +4,21 @@ import { useState } from 'react';
 import { NavBar } from './Components/navBar';
 import { DragDropContext} from "react-beautiful-dnd";
 import { MOVES } from "./constants";
-
+import './temp.css'
+import { useDispatch, useSelector } from 'react-redux'; // Import useSelector here
+import { Addinlist } from "./Redux/slice";
 export default function App() {
   const [moves, setMoves] = useState(MOVES);
   const [actions, setActions]= useState([]);
   const [actions2, setActions2]= useState([]);
-  
+  const dispatch = useDispatch(); // Fixed typo: changed 'usediapatch' to 'useDispatch'
+  const Arryfor = useSelector ((state) => state.storedetails.Arrytostore)
   const onHandleDragEnd = (result) =>{
     const {source, destination} = result;
     console.log(source, destination)
     if (!destination) {
       return;
     }
-
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -46,7 +48,7 @@ export default function App() {
   
   return (
     <div className="bg-blue-100 font-sans text-center">
-      <NavBar/>
+      {/* <NavBar/> */}
         <DragDropContext onDragEnd={onHandleDragEnd}>
           <EventBody 
             moves={moves} 

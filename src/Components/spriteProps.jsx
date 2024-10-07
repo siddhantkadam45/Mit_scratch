@@ -9,25 +9,18 @@ export const Sprites = (props) => {
         id:0,
         src:require('../Assets/images/cat.png')
       },
-      { 
-        id:1,
-        src: require('../Assets/images/jerry1.png')
-      },
-      { 
-        id:2,
-        src:require('../Assets/images/ball.png')
-      },
+      // { 
+      //   id:1,
+      //   src: require('../Assets/images/jerry1.png')
+      // },
       
-      {
-        id:3,
-        src:require('../Assets/images/Mickey_Mouse.png')
-      },
 
   ];
   function handleClick(src) {
     console.log('clicked')
     displayAddIcon ? setSprite(src): setSprite2(src);
   };
+  
   return (
     <Box 
         sx={{ 
